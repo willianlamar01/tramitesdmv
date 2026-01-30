@@ -4,9 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trámites DMV - Licencias y Placas sin Filas</title>
+    
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23046b99'/><circle cx='50' cy='50' r='40' fill='none' stroke='%23fdb81e' stroke-width='3'/><text x='50' y='60' font-family='Arial' font-size='28' font-weight='bold' fill='white' text-anchor='middle'>DMV</text></svg>">
+    
+    <!-- Meta tags mejorados para SEO -->
+    <meta name="description" content="Profesional certificado del DMV. Obtén tu licencia de conducir, placas temporales e ID sin filas. Servicio rápido, legal y confiable.">
+    <meta name="keywords" content="DMV, licencia de conducir, placas temporales, identificación, trámites, sin filas, California">
+    <meta name="author" content="Trámites DMV">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph para redes sociales -->
+    <meta property="og:title" content="Trámites DMV - Sin Filas ni Esperas">
+    <meta property="og:description" content="Profesional certificado del DMV. Obtén tus documentos sin complicaciones.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tramitesdmv.com">
+    
+    <!-- Compatibilidad con navegadores -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -29,10 +49,12 @@
         }
 
         body {
-            font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
             background-color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Government Banner */
@@ -92,13 +114,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-top-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .header-top-links a {
             color: white;
             text-decoration: none;
-            margin-left: 20px;
             font-size: 13px;
+            padding: 5px 10px;
         }
 
         .header-top-links a:hover {
@@ -122,6 +152,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .logo-section {
@@ -140,6 +172,7 @@
             justify-content: center;
             position: relative;
             border: 3px solid var(--accent-gold);
+            flex-shrink: 0;
         }
 
         .dmv-seal::before {
@@ -159,14 +192,14 @@
         }
 
         .logo-text h1 {
-            font-size: 26px;
+            font-size: clamp(20px, 4vw, 26px);
             font-weight: 700;
             color: var(--dark-blue);
             line-height: 1.2;
         }
 
         .logo-text .subtitle {
-            font-size: 14px;
+            font-size: clamp(12px, 2vw, 14px);
             color: var(--text-gray);
             font-weight: 500;
         }
@@ -187,13 +220,14 @@
         }
 
         .contact-number {
-            font-size: 28px;
+            font-size: clamp(20px, 4vw, 28px);
             font-weight: 700;
             color: var(--primary-blue);
             margin-bottom: 5px;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .contact-label {
@@ -241,14 +275,14 @@
         }
 
         .hero h2 {
-            font-size: 44px;
+            font-size: clamp(28px, 5vw, 44px);
             font-weight: 700;
             margin-bottom: 20px;
             line-height: 1.3;
         }
 
         .hero p {
-            font-size: 20px;
+            font-size: clamp(16px, 3vw, 20px);
             margin-bottom: 35px;
             opacity: 0.95;
             line-height: 1.7;
@@ -265,7 +299,7 @@
 
         .credentials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
         }
 
@@ -302,6 +336,7 @@
             border: none;
             cursor: pointer;
             display: inline-block;
+            text-align: center;
         }
 
         .btn-primary:hover {
@@ -321,12 +356,78 @@
             transition: all 0.3s;
             border: 2px solid white;
             display: inline-block;
+            text-align: center;
         }
 
         .btn-secondary:hover {
             background: transparent;
             color: white;
             transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--dark-blue);
+            color: white;
+            padding: 50px 20px;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: clamp(36px, 6vw, 48px);
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            background: white;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .badges-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .badge-icon {
+            font-size: 24px;
         }
 
         /* Services Section */
@@ -346,14 +447,14 @@
         }
 
         .section-header h2 {
-            font-size: 38px;
+            font-size: clamp(28px, 5vw, 38px);
             font-weight: 700;
             color: var(--dark-blue);
             margin-bottom: 15px;
         }
 
         .section-header p {
-            font-size: 18px;
+            font-size: clamp(16px, 3vw, 18px);
             color: var(--text-gray);
             max-width: 700px;
             margin: 0 auto;
@@ -361,7 +462,7 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
             gap: 25px;
         }
 
@@ -397,10 +498,11 @@
             align-items: center;
             justify-content: center;
             font-size: 35px;
+            flex-shrink: 0;
         }
 
         .service-title h3 {
-            font-size: 22px;
+            font-size: clamp(18px, 3vw, 22px);
             font-weight: 700;
             color: var(--dark-blue);
             margin-bottom: 5px;
@@ -454,10 +556,12 @@
             align-items: center;
             padding-top: 20px;
             border-top: 2px solid var(--bg-light);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .service-price {
-            font-size: 28px;
+            font-size: clamp(24px, 4vw, 28px);
             font-weight: 700;
             color: var(--primary-blue);
         }
@@ -476,7 +580,7 @@
 
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
@@ -506,10 +610,11 @@
             align-items: center;
             justify-content: center;
             font-size: 30px;
+            flex-shrink: 0;
         }
 
         .benefit-card h3 {
-            font-size: 22px;
+            font-size: clamp(18px, 3vw, 22px);
             font-weight: 700;
             color: var(--dark-blue);
         }
@@ -570,7 +675,7 @@
         }
 
         .step-content h3 {
-            font-size: 24px;
+            font-size: clamp(20px, 3vw, 24px);
             font-weight: 700;
             color: var(--dark-blue);
             margin-bottom: 10px;
@@ -582,15 +687,63 @@
             font-size: 16px;
         }
 
-        /* Testimonials */
-        .testimonials {
+        /* FAQ Section */
+        .faq {
             padding: 70px 20px;
             background: var(--bg-light);
         }
 
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 2px solid var(--border-gray);
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .faq-question {
+            padding: 25px;
+            font-size: clamp(16px, 3vw, 18px);
+            font-weight: 600;
+            color: var(--dark-blue);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--bg-light);
+        }
+
+        .faq-answer {
+            padding: 0 25px 25px;
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 70px 20px;
+            background: white;
+        }
+
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
             gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
@@ -602,6 +755,13 @@
             border-radius: 8px;
             border: 2px solid var(--border-gray);
             position: relative;
+            transition: all 0.3s;
+        }
+
+        .testimonial:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
 
         .testimonial-header {
@@ -609,6 +769,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .testimonial-stars {
@@ -637,6 +799,143 @@
             font-size: 15px;
         }
 
+        .testimonial-location {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-top: 3px;
+        }
+
+        /* Testimonial Form Section */
+        .testimonial-form-section {
+            margin-top: 60px;
+            padding-top: 60px;
+            border-top: 3px solid var(--border-gray);
+        }
+
+        .testimonial-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--border-gray);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-form .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .testimonial-form label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .testimonial-form input[type="text"],
+        .testimonial-form input[type="email"],
+        .testimonial-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-gray);
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .testimonial-form input[type="text"]:focus,
+        .testimonial-form input[type="email"]:focus,
+        .testimonial-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(4, 107, 153, 0.1);
+        }
+
+        .testimonial-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 5px;
+            font-size: 40px;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            color: var(--border-gray);
+            transition: color 0.2s;
+            margin-bottom: 0;
+        }
+
+        .star-rating input[type="radio"]:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: var(--accent-gold);
+        }
+
+        /* Checkbox */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container span {
+            font-weight: 400;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        /* Form Message */
+        .form-message {
+            margin-top: 20px;
+            padding: 15px 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
         /* Contact Section */
         .contact {
             padding: 70px 20px;
@@ -651,20 +950,20 @@
         }
 
         .contact h2 {
-            font-size: 42px;
+            font-size: clamp(32px, 5vw, 42px);
             font-weight: 700;
             margin-bottom: 20px;
         }
 
         .contact > p {
-            font-size: 18px;
+            font-size: clamp(16px, 3vw, 18px);
             margin-bottom: 50px;
             opacity: 0.95;
         }
 
         .contact-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
             gap: 25px;
         }
 
@@ -683,7 +982,7 @@
         }
 
         .contact-card h3 {
-            font-size: 22px;
+            font-size: clamp(18px, 3vw, 22px);
             margin-bottom: 15px;
             font-weight: 700;
         }
@@ -699,6 +998,7 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 18px;
+            word-break: break-word;
         }
 
         .contact-card a:hover {
@@ -716,7 +1016,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
             gap: 40px;
             margin-bottom: 40px;
         }
@@ -782,6 +1082,7 @@
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .social-link {
@@ -804,42 +1105,90 @@
         /* Responsive */
         @media (max-width: 768px) {
             .header-main {
+                text-align: center;
+            }
+
+            .logo-section {
                 flex-direction: column;
-                gap: 20px;
                 text-align: center;
             }
 
             .header-contact {
                 text-align: center;
+                width: 100%;
             }
 
             .contact-number {
                 justify-content: center;
             }
 
-            .hero h2 {
-                font-size: 32px;
+            .header-top .container {
+                flex-direction: column;
+                text-align: center;
             }
 
-            .credentials-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-header h2 {
-                font-size: 28px;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
+            .header-top-links {
+                justify-content: center;
             }
 
             .process-timeline::before {
                 display: none;
             }
 
-            .social-links {
+            .alert-bar .container {
                 flex-direction: column;
-                align-items: center;
+                text-align: center;
+            }
+
+            .testimonial-form-container {
+                padding: 25px 20px;
+            }
+
+            .testimonial-form .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .star-rating {
+                font-size: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+
+            .service-footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .service-footer .btn-primary {
+                width: 100%;
+            }
+
+            .star-rating {
+                font-size: 30px;
+            }
+
+            .testimonial-form-container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            header {
+                position: relative;
+            }
+
+            .no-print {
+                display: none;
             }
         }
     </style>
@@ -919,6 +1268,50 @@
                     <a href="https://wa.me/18437034758" target="_blank" class="btn-primary">WhatsApp Ahora</a>
                     <a href="#services" class="btn-secondary">Ver Servicios</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Clientes Satisfechos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Tasa de Aprobación</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3-5</div>
+                <div class="stat-label">Días Promedio</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Soporte Disponible</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="trust-badges">
+        <div class="badges-container">
+            <div class="badge-item">
+                <span class="badge-icon">🛡️</span>
+                <span>100% Seguro</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-icon">✓</span>
+                <span>Certificado Oficial</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-icon">⚡</span>
+                <span>Servicio Rápido</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-icon">💯</span>
+                <span>Garantizado</span>
             </div>
         </div>
     </section>
@@ -1007,30 +1400,6 @@
                     </div>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-header">
-                        <div class="service-icon">📝</div>
-                        <div class="service-title">
-                            <h3>Asistencia con Exámenes</h3>
-                            <span class="service-badge">PREPARACIÓN</span>
-                        </div>
-                    </div>
-                    <p>Preparación completa y asistencia para maximizar sus posibilidades de aprobar los exámenes del DMV.</p>
-                    <ul class="service-features">
-                        <li>Preparación Examen Escrito</li>
-                        <li>Preparación Examen de Manejo</li>
-                        <li>Materiales de Estudio</li>
-                        <li>Programación de Exámenes</li>
-                        <li>Consejos Profesionales</li>
-                        <li>Apoyo Completo</li>
-                    </ul>
-                    <div class="service-footer">
-                        <div class="service-price">
-                            $50<br><small>Desde</small>
-                        </div>
-                        <a href="https://wa.me/18437034758" target="_blank" class="btn-primary">Solicitar</a>
-                    </div>
-                </div>
 
                 <div class="service-card">
                     <div class="service-header">
@@ -1164,6 +1533,78 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Preguntas Frecuentes</h2>
+                <p>Resolvemos las dudas más comunes sobre nuestros servicios</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Es legal este servicio?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, completamente legal. Soy un profesional certificado del DMV con acceso oficial al sistema. Todos los documentos que emito son 100% válidos y reconocidos por las autoridades correspondientes.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cuánto tiempo toma obtener mi licencia?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        El proceso regular toma entre 3-5 días hábiles. Si necesita un servicio más rápido, ofrecemos la opción VIP Express que procesa sus documentos en 24-48 horas.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Qué documentos necesito proporcionar?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Los requisitos varían según el tipo de trámite, pero generalmente necesitará identificación oficial, comprobante de domicilio y, en algunos casos, documentos adicionales. Durante la consulta gratuita le indicaré exactamente qué necesita para su caso específico.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo funcionan las placas temporales?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Las placas temporales son completamente legales y válidas por un período de 30 a 90 días, dependiendo de sus necesidades. Son perfectas para vehículos nuevos, recién comprados o mientras espera las placas permanentes.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Ofrecen garantía de satisfacción?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, garantizo que todos los trámites se procesarán correctamente. Si hay algún problema con la documentación por nuestra parte, lo resolveremos sin costo adicional. Su satisfacción es mi prioridad.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Puedo confiar en este servicio?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutamente. Contamos con más de 500 clientes satisfechos y una tasa de aprobación del 98%. Todos nuestros testimonios son verificados y puede consultar nuestras redes sociales para ver opiniones reales de clientes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Testimonials -->
     <section id="testimonials" class="testimonials">
         <div class="container">
@@ -1179,7 +1620,8 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"Increíble servicio! Necesitaba mi licencia urgentemente para un trabajo y en 3 días ya la tenía en mis manos. No tuve que ir al DMV ni hacer ninguna fila. 100% recomendado y totalmente legal!"</p>
-                    <div class="testimonial-author">— María González, Los Angeles</div>
+                    <div class="testimonial-author">— María González</div>
+                    <div class="testimonial-location">Los Angeles, CA</div>
                 </div>
 
                 <div class="testimonial">
@@ -1188,7 +1630,8 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"Después de meses intentando sacar cita en el DMV sin éxito, encontré este servicio. En menos de una semana tenía mis placas temporales. Excelente atención, muy profesional y todo completamente oficial."</p>
-                    <div class="testimonial-author">— Carlos Rodríguez, San Diego</div>
+                    <div class="testimonial-author">— Carlos Rodríguez</div>
+                    <div class="testimonial-location">Miami, FL</div>
                 </div>
 
                 <div class="testimonial">
@@ -1197,7 +1640,8 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"Obtuve mi licencia en tiempo récord gracias a este servicio. Todo fue muy fácil y sin complicaciones. El profesional me explicó cada paso y me mantuvo informada. Altamente recomendado para cualquier trámite del DMV."</p>
-                    <div class="testimonial-author">— Ana Martínez, San Francisco</div>
+                    <div class="testimonial-author">— Ana Martínez</div>
+                    <div class="testimonial-location">Houston, TX</div>
                 </div>
 
                 <div class="testimonial">
@@ -1206,7 +1650,8 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"Servicio VIP totalmente recomendado. Necesitaba mi REAL ID para un viaje internacional y lo obtuve en 48 horas. Profesional, rápido, confiable y completamente legal. Vale cada centavo."</p>
-                    <div class="testimonial-author">— Luis Hernández, Sacramento</div>
+                    <div class="testimonial-author">— Luis Hernández</div>
+                    <div class="testimonial-location">Phoenix, AZ</div>
                 </div>
 
                 <div class="testimonial">
@@ -1215,7 +1660,8 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"La mejor decisión que tomé. No entiendo por qué perdí tanto tiempo en filas del DMV cuando podía haber contratado este servicio desde el principio. Ahora lo recomiendo a todos mis conocidos."</p>
-                    <div class="testimonial-author">— Patricia Sánchez, Fresno</div>
+                    <div class="testimonial-author">— Patricia Sánchez</div>
+                    <div class="testimonial-location">Las Vegas, NV</div>
                 </div>
 
                 <div class="testimonial">
@@ -1224,7 +1670,133 @@
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
                     <p>"Excelente atención al cliente desde el primer contacto. Me explicó todo claramente, respondió todas mis preguntas y me mantuvo informado durante todo el proceso. Muy satisfecho con el resultado y la legalidad del servicio."</p>
-                    <div class="testimonial-author">— Roberto Díaz, Oakland</div>
+                    <div class="testimonial-author">— Roberto Díaz</div>
+                    <div class="testimonial-location">Dallas, TX</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Contraté el servicio para renovar mi licencia y fue extraordinario. El proceso fue rápido, transparente y sin complicaciones. Me ahorraron días de espera y trámites burocráticos. Definitivamente volveré a usar este servicio."</p>
+                    <div class="testimonial-author">— Jennifer Torres</div>
+                    <div class="testimonial-location">Orlando, FL</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Como madre trabajadora, no tenía tiempo para hacer filas en el DMV. Este servicio fue mi salvación. Obtuve mi REAL ID en menos de una semana sin salir de casa. Simplemente perfecto!"</p>
+                    <div class="testimonial-author">— Sandra Morales</div>
+                    <div class="testimonial-location">Atlanta, GA</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Necesitaba placas temporales urgentemente y este servicio las procesó el mismo día. La comunicación fue excelente, me mantuvieron informado en todo momento. Precio justo por un servicio de primera calidad."</p>
+                    <div class="testimonial-author">— Miguel Ramírez</div>
+                    <div class="testimonial-location">San Antonio, TX</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Muy buen servicio. Tardó un poco más de lo esperado (5 días en lugar de 3), pero el resultado fue perfecto. La licencia es completamente válida y funcional. Recomendado para quien no quiera perder tiempo en filas."</p>
+                    <div class="testimonial-author">— Jorge Castro</div>
+                    <div class="testimonial-location">Charlotte, NC</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Contraté el servicio Express VIP y fue increíble. En 36 horas tenía mi licencia lista. El profesional fue muy atento, respondió todas mis dudas por WhatsApp y el proceso fue transparente de principio a fin."</p>
+                    <div class="testimonial-author">— Andrea Gutiérrez</div>
+                    <div class="testimonial-location">Denver, CO</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-stars">★★★★</div>
+                        <span class="verified-badge">✓ Verificado</span>
+                    </div>
+                    <p>"Servicio confiable y profesional. Me ayudaron con toda la documentación necesaria y el proceso fue muy sencillo. El precio es razonable considerando el tiempo y las molestias que me ahorraron. Lo recomiendo."</p>
+                    <div class="testimonial-author">— Fernando López</div>
+                    <div class="testimonial-location">Nashville, TN</div>
+                </div>
+            </div>
+
+            <!-- Formulario para Dejar Testimonio -->
+            <div class="testimonial-form-section">
+                <div class="section-header" style="margin-top: 60px; margin-bottom: 30px;">
+                    <h3 style="font-size: 28px; color: var(--dark-blue);">Comparte tu Experiencia</h3>
+                    <p>¿Has usado nuestros servicios? Déjanos tu testimonio</p>
+                </div>
+
+                <div class="testimonial-form-container">
+                    <form id="testimonialForm" class="testimonial-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Tu Nombre *</label>
+                                <input type="text" id="name" name="name" required placeholder="Ej: María González">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Ciudad y Estado *</label>
+                                <input type="text" id="location" name="location" required placeholder="Ej: Miami, FL">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">Calificación *</label>
+                            <div class="star-rating">
+                                <input type="radio" id="star5" name="rating" value="5" required>
+                                <label for="star5" title="5 estrellas">★</label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4" title="4 estrellas">★</label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3" title="3 estrellas">★</label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2" title="2 estrellas">★</label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1" title="1 estrella">★</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="testimonial">Tu Testimonio *</label>
+                            <textarea id="testimonial" name="testimonial" rows="5" required placeholder="Cuéntanos sobre tu experiencia con nuestros servicios..."></textarea>
+                            <small style="color: var(--text-gray); font-size: 13px;">Mínimo 50 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email (opcional)</label>
+                            <input type="email" id="email" name="email" placeholder="tu@email.com">
+                            <small style="color: var(--text-gray); font-size: 13px;">Solo para verificación, no será publicado</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="consent" name="consent" required>
+                                <span>Autorizo la publicación de mi testimonio en el sitio web *</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="width: 100%; max-width: 300px; margin: 20px auto 0; display: block;">
+                            Enviar Testimonio
+                        </button>
+                    </form>
+
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -1320,7 +1892,7 @@
     </footer>
 
     <script>
-        // Smooth scrolling
+        // Smooth scrolling para todos los navegadores
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1333,6 +1905,104 @@
                 }
             });
         });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const arrow = this.querySelector('span:last-child');
+                
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    arrow.textContent = '▼';
+                } else {
+                    // Cerrar otros FAQs
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        ans.style.display = 'none';
+                    });
+                    document.querySelectorAll('.faq-question span:last-child').forEach(arr => {
+                        arr.textContent = '▼';
+                    });
+                    
+                    answer.style.display = 'block';
+                    arrow.textContent = '▲';
+                }
+            });
+        });
+
+        // Formulario de Testimonios
+        const testimonialForm = document.getElementById('testimonialForm');
+        const formMessage = document.getElementById('formMessage');
+
+        if (testimonialForm) {
+            testimonialForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const location = document.getElementById('location').value.trim();
+                const rating = document.querySelector('input[name="rating"]:checked');
+                const testimonial = document.getElementById('testimonial').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const consent = document.getElementById('consent').checked;
+
+                // Validaciones
+                if (!name || !location || !rating || !testimonial || !consent) {
+                    showMessage('Por favor completa todos los campos requeridos.', 'error');
+                    return;
+                }
+
+                if (testimonial.length < 50) {
+                    showMessage('El testimonio debe tener al menos 50 caracteres.', 'error');
+                    return;
+                }
+
+                // Preparar datos para enviar
+                const formData = {
+                    nombre: name,
+                    ubicacion: location,
+                    calificacion: rating.value,
+                    testimonio: testimonial,
+                    email: email || 'No proporcionado',
+                    fecha: new Date().toLocaleString('es-ES')
+                };
+
+                // Aquí puedes enviar los datos por WhatsApp
+                const whatsappMessage = `*NUEVO TESTIMONIO*%0A%0A` +
+                    `*Nombre:* ${formData.nombre}%0A` +
+                    `*Ubicación:* ${formData.ubicacion}%0A` +
+                    `*Calificación:* ${'⭐'.repeat(parseInt(formData.calificacion))}%0A` +
+                    `*Testimonio:* ${formData.testimonio}%0A` +
+                    `*Email:* ${formData.email}%0A` +
+                    `*Fecha:* ${formData.fecha}`;
+
+                // Mostrar mensaje de éxito
+                showMessage('¡Gracias por tu testimonio! Lo revisaremos y publicaremos pronto. Te hemos redirigido a WhatsApp para confirmar.', 'success');
+                
+                // Limpiar formulario
+                testimonialForm.reset();
+
+                // Abrir WhatsApp después de 2 segundos
+                setTimeout(() => {
+                    window.open(`https://wa.me/18437034758?text=${whatsappMessage}`, '_blank');
+                }, 2000);
+            });
+        }
+
+        function showMessage(message, type) {
+            formMessage.textContent = message;
+            formMessage.className = 'form-message ' + type;
+            formMessage.style.display = 'block';
+            
+            // Scroll al mensaje
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Ocultar mensaje después de 5 segundos si es error
+            if (type === 'error') {
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
     </script>
 </body>
 </html>

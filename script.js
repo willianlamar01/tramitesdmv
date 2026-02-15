@@ -91,15 +91,16 @@ if (requestForm) {
     requestForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Obtener datos del formulario
-        const serviceType = document.getElementById('serviceType').value;
-        const fullName = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const city = document.getElementById('city').value.trim();
-        const state = document.getElementById('state').value.trim();
-        const zipcode = document.getElementById('zipcode').value.trim();
-        const comments = document.getElementById('comments').value.trim();
+      // Obtener datos del formulario
+const serviceType = document.getElementById('serviceType').value;
+const fullName = document.getElementById('fullName').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const address = document.getElementById('address').value.trim();
+const address2 = document.getElementById('address2').value.trim();
+const city = document.getElementById('city').value.trim();
+const state = document.getElementById('state').value.trim();
+const zipcode = document.getElementById('zipcode').value.trim();
+const comments = document.getElementById('comments').value.trim();
 
         // Validación básica
         if (!fullName || !phone || !address || !city || !state || !zipcode) {
@@ -113,20 +114,21 @@ if (requestForm) {
             return;
         }
 
-        // Preparar mensaje para WhatsApp
-        const whatsappMessage = 
-            `*NUEVA SOLICITUD DE SERVICIO*%0A%0A` +
-            `*Servicio:* ${serviceType}%0A` +
-            `*Precio:* ${currentServicePrice}%0A%0A` +
-            `*DATOS DEL CLIENTE*%0A` +
-            `*Nombre:* ${fullName}%0A` +
-            `*Teléfono:* ${phone}%0A` +
-            `*Dirección:* ${address}%0A` +
-            `*Ciudad:* ${city}%0A` +
-            `*Estado:* ${state}%0A` +
-            `*Código Postal:* ${zipcode}%0A` +
-            (comments ? `*Comentarios:* ${comments}%0A` : '') +
-            `%0A*Fecha:* ${new Date().toLocaleString('es-ES')}`;
+// Preparar mensaje para WhatsApp
+const whatsappMessage = 
+    `*NUEVA SOLICITUD DE SERVICIO*%0A%0A` +
+    `*Servicio:* ${serviceType}%0A` +
+    `*Precio:* ${currentServicePrice}%0A%0A` +
+    `*DATOS DEL CLIENTE*%0A` +
+    `*Nombre:* ${fullName}%0A` +
+    `*Teléfono:* ${phone}%0A` +
+    `*Dirección:* ${address}%0A` +
+    (address2 ? `*Dirección 2:* ${address2}%0A` : '') +
+    `*Ciudad:* ${city}%0A` +
+    `*Estado:* ${state}%0A` +
+    `*Código Postal:* ${zipcode}%0A` +
+    (comments ? `*Comentarios:* ${comments}%0A` : '') +
+    `%0A*Fecha:* ${new Date().toLocaleString('es-ES')}`;
 
         // Ocultar formulario y mostrar animación de éxito
         requestForm.style.display = 'none';
@@ -221,3 +223,154 @@ function showMessage(message, type) {
         }, 5000);
     }
 }
+
+// ============================================
+// AUTOCOMPLETADO DE DIRECCIONES SIN API KEY
+// Usando OpenStreetMap Nominatim (Gratuito)
+// ============================================
+
+let autocompleteTimeout;
+let suggestionsContainer;
+
+// Crear contenedor de sugerencias
+function createSuggestionsContainer() {
+    if (suggestionsContainer) return;
+    
+    suggestionsContainer = document.createElement('div');
+    suggestionsContainer.className = 'address-suggestions';
+    suggestionsContainer.style.display = 'none';
+    
+    const addressInput = document.getElementById('address');
+    addressInput.parentNode.style.position = 'relative';
+    addressInput.parentNode.appendChild(suggestionsContainer);
+}
+
+// Buscar direcciones mientras el usuario escribe
+document.getElementById('address')?.addEventListener('input', function(e) {
+    const query = e.target.value.trim();
+    
+    // Solo buscar si hay al menos 5 caracteres
+    if (query.length < 5) {
+        hideSuggestions();
+        return;
+    }
+    
+    // Limpiar timeout anterior
+    clearTimeout(autocompleteTimeout);
+    
+    // Esperar 500ms después de que el usuario deje de escribir
+    autocompleteTimeout = setTimeout(() => {
+        searchAddresses(query);
+    }, 500);
+});
+
+// Buscar direcciones en OpenStreetMap
+async function searchAddresses(query) {
+    try {
+        // Agregar "USA" a la búsqueda para mejores resultados
+        const searchQuery = encodeURIComponent(`${query}, USA`);
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}&countrycodes=us&addressdetails=1&limit=5`;
+        
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'TramitesDMV/1.0' // Requerido por Nominatim
+            }
+        });
+        
+        if (!response.ok) throw new Error('Error en la búsqueda');
+        
+        const results = await response.json();
+        displaySuggestions(results);
+        
+    } catch (error) {
+        console.error('Error al buscar direcciones:', error);
+        hideSuggestions();
+    }
+}
+
+// Mostrar sugerencias
+function displaySuggestions(results) {
+    createSuggestionsContainer();
+    
+    if (results.length === 0) {
+        hideSuggestions();
+        return;
+    }
+    
+    suggestionsContainer.innerHTML = '';
+    
+    results.forEach(result => {
+        const suggestion = document.createElement('div');
+        suggestion.className = 'address-suggestion-item';
+        
+        // Formatear dirección
+        const address = result.address;
+        const street = `${address.house_number || ''} ${address.road || ''}`.trim();
+        const city = address.city || address.town || address.village || '';
+        const state = address.state || '';
+        const zipcode = address.postcode || '';
+        
+        // Mostrar la dirección completa
+        suggestion.innerHTML = `
+            <div class="suggestion-main">${result.display_name}</div>
+        `;
+        
+        // Al hacer clic en una sugerencia
+        suggestion.addEventListener('click', () => {
+            fillFormWithAddress(street, city, state, zipcode, result.display_name);
+            hideSuggestions();
+        });
+        
+        suggestionsContainer.appendChild(suggestion);
+    });
+    
+    suggestionsContainer.style.display = 'block';
+}
+
+// Llenar formulario con la dirección seleccionada
+function fillFormWithAddress(street, city, state, zipcode, fullAddress) {
+    // Si no hay calle específica, usar la dirección completa
+    if (!street) {
+        // Extraer solo la primera parte de la dirección
+        street = fullAddress.split(',')[0];
+    }
+    
+    document.getElementById('address').value = street;
+    document.getElementById('city').value = city;
+    document.getElementById('state').value = state;
+    document.getElementById('zipcode').value = zipcode;
+    
+    // Feedback visual
+    [document.getElementById('city'), document.getElementById('state'), document.getElementById('zipcode')].forEach(field => {
+        if (field.value) {
+            field.style.borderColor = '#00a91c';
+            field.style.backgroundColor = '#f0fff4';
+            setTimeout(() => {
+                field.style.borderColor = '';
+                field.style.backgroundColor = '';
+            }, 2000);
+        }
+    });
+}
+
+// Ocultar sugerencias
+function hideSuggestions() {
+    if (suggestionsContainer) {
+        suggestionsContainer.style.display = 'none';
+    }
+}
+
+// Cerrar sugerencias al hacer clic fuera
+document.addEventListener('click', function(e) {
+    const addressInput = document.getElementById('address');
+    if (e.target !== addressInput && !suggestionsContainer?.contains(e.target)) {
+        hideSuggestions();
+    }
+});
+
+// Prevenir que Enter envíe el formulario al seleccionar sugerencia
+document.getElementById('address')?.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && suggestionsContainer?.style.display === 'block') {
+        e.preventDefault();
+    }
+});

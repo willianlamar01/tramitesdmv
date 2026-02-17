@@ -558,7 +558,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                 </div>
 
                 <div class="testimonial-form-container">
-                    <form id="testimonialForm" class="testimonial-form">
+                    <form id="testimonialForm" class="testimonial-form" novalidate>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Tu Nombre *</label>
@@ -704,91 +704,93 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
             <p style="margin-top: 10px; font-size: 12px;">tramitesdmv.com</p>
         </div>
     </footer>
- <!-- Modal de Formulario de Solicitud -->
- <div id="requestModal" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 id="modalTitle">Solicitud de Servicio</h3>
-            <button class="modal-close" onclick="closeRequestModal()">&times;</button>
-        </div>
-        
-        <div class="modal-body">
-            <form id="requestForm" class="request-form">
-                <input type="hidden" id="serviceType" name="serviceType">
-                
-                <div class="form-group">
-                    <label for="fullName">Nombre Completo *</label>
-                    <input type="text" id="fullName" name="fullName" required 
-                           placeholder="Ej: Juan Pérez García">
-                </div>
 
-
-                <div class="form-group">
-                    <label for="address">Dirección *</label>
-                    <input type="text" id="address" name="address" required 
-                           placeholder="Ej: 123 Main Street">
-                </div>
-
-                <div class="form-group">
-                    <label for="address2">Dirección 2 (Apt, Suite, Casa) <small style="color: var(--text-gray); font-weight: 400;">(Opcional)</small></label>
-                    <input type="text" id="address2" name="address2" 
-                           placeholder="Ej: Apt 4B, Suite 200, Casa 5">
-                </div>
-
-                <div class="form-row">
+    <!-- Modal de Formulario de Solicitud -->
+    <div id="requestModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle">Solicitud de Servicio</h3>
+                <button class="modal-close" onclick="closeRequestModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="requestForm" class="request-form" novalidate>
+                    <input type="hidden" id="serviceType" name="serviceType">
+                    
                     <div class="form-group">
-                        <label for="city">Ciudad *</label>
-                        <input type="text" id="city" name="city" required 
-                               placeholder="Ej: Miami">
+                        <label for="fullName">Nombre Completo *</label>
+                        <input type="text" id="fullName" name="fullName" required 
+                               placeholder="Ej: Juan Pérez García">
                     </div>
 
                     <div class="form-group">
-                        <label for="state">Estado *</label>
-                        <input type="text" id="state" name="state" required 
-                               placeholder="Ej: FL">
+                        <label for="address">Dirección *</label>
+                        <input type="text" id="address" name="address" required 
+                               placeholder="Ej: 123 Main Street">
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="zipcode">Código Postal (ZIP) *</label>
-                    <input type="text" id="zipcode" name="zipcode" required 
-                           pattern="[0-9]{5}" 
-                           placeholder="Ej: 33101">
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Número de Teléfono *</label>
-                    <input type="tel" id="phone" name="phone" required 
-                           placeholder="Ej: (555) 123-4567">
-                </div>
-
-                <div class="form-group">
-                    <label for="comments">Comentarios Adicionales (Opcional)</label>
-                    <textarea id="comments" name="comments" rows="3" 
-                              placeholder="¿Algo más que debamos saber?"></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%; font-size: 18px;">
-                    Enviar Solicitud
-                </button>
-            </form>
-
-            <!-- Mensaje de Éxito (oculto inicialmente) -->
-            <div id="successMessage" class="success-animation" style="display: none;">
-                <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
+                    <div class="form-group">
+                        <label for="address2">Dirección 2 (Apt, Suite, Casa) <small style="color: var(--text-gray); font-weight: 400;">(Opcional)</small></label>
+                        <input type="text" id="address2" name="address2" 
+                               placeholder="Ej: Apt 4B, Suite 200, Casa 5">
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Ciudad *</label>
+                            <input type="text" id="city" name="city" required 
+                                   placeholder="Ej: Miami">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="state">Estado *</label>
+                            <input type="text" id="state" name="state" required 
+                                   placeholder="Ej: FL">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zipcode">Código Postal (ZIP) *</label>
+                        <input type="text" id="zipcode" name="zipcode" required 
+                               inputmode="numeric"
+                               maxlength="5"
+                               placeholder="Ej: 33101">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Número de Teléfono *</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               inputmode="tel"
+                               placeholder="Ej: (555) 123-4567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comments">Comentarios Adicionales (Opcional)</label>
+                        <textarea id="comments" name="comments" rows="3" 
+                                  placeholder="¿Algo más que debamos saber?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; font-size: 18px;">
+                        Enviar Solicitud
+                    </button>
+                </form>
+
+                <!-- Mensaje de Éxito (oculto inicialmente) -->
+                <div id="successMessage" class="success-animation" style="display: none;">
+                    <div class="success-checkmark">
+                        <div class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                    <h3>¡Solicitud Enviada!</h3>
+                    <p>Te estamos redirigiendo a WhatsApp...</p>
                 </div>
-                <h3>¡Solicitud Enviada!</h3>
-                <p>Te estamos redirigiendo a WhatsApp...</p>
             </div>
         </div>
     </div>
-</div>
 
     <script src="script.js"></script>
 </body>

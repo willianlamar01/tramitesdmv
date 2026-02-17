@@ -85,70 +85,113 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Manejar envío del formulario de solicitud
+// Manejar envío del formulario de solicitud - MEJORADO PARA iOS
 const requestForm = document.getElementById('requestForm');
 if (requestForm) {
     requestForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Formulario enviado - iniciando procesamiento');
 
-      // Obtener datos del formulario
-const serviceType = document.getElementById('serviceType').value;
-const fullName = document.getElementById('fullName').value.trim();
-const phone = document.getElementById('phone').value.trim();
-const address = document.getElementById('address').value.trim();
-const address2 = document.getElementById('address2').value.trim();
-const city = document.getElementById('city').value.trim();
-const state = document.getElementById('state').value.trim();
-const zipcode = document.getElementById('zipcode').value.trim();
-const comments = document.getElementById('comments').value.trim();
+        // Obtener datos del formulario
+        const serviceType = document.getElementById('serviceType').value;
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const address2 = document.getElementById('address2').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const zipcode = document.getElementById('zipcode').value.trim();
+        const comments = document.getElementById('comments').value.trim();
+
+        console.log('Datos capturados:', { fullName, phone, city, state, zipcode });
 
         // Validación básica
         if (!fullName || !phone || !address || !city || !state || !zipcode) {
             alert('Por favor complete todos los campos requeridos.');
-            return;
+            console.log('Validación falló - campos vacíos');
+            return false;
         }
 
-        // Validar código postal (5 dígitos)
-        if (!/^\d{5}$/.test(zipcode)) {
+        // Validar código postal (5 dígitos) - más flexible para iOS
+        const zipcodeClean = zipcode.replace(/\D/g, '');
+        if (zipcodeClean.length !== 5) {
             alert('El código postal debe tener 5 dígitos.');
-            return;
+            console.log('Validación falló - zipcode inválido:', zipcode);
+            return false;
         }
 
-// Preparar mensaje para WhatsApp
-const whatsappMessage = 
-    `*NUEVA SOLICITUD DE SERVICIO*%0A%0A` +
-    `*Servicio:* ${serviceType}%0A` +
-    `*Precio:* ${currentServicePrice}%0A%0A` +
-    `*DATOS DEL CLIENTE*%0A` +
-    `*Nombre:* ${fullName}%0A` +
-    `*Teléfono:* ${phone}%0A` +
-    `*Dirección:* ${address}%0A` +
-    (address2 ? `*Dirección 2:* ${address2}%0A` : '') +
-    `*Ciudad:* ${city}%0A` +
-    `*Estado:* ${state}%0A` +
-    `*Código Postal:* ${zipcode}%0A` +
-    (comments ? `*Comentarios:* ${comments}%0A` : '') +
-    `%0A*Fecha:* ${new Date().toLocaleString('es-ES')}`;
+        console.log('Validación exitosa - preparando mensaje');
+
+        // Preparar mensaje para WhatsApp - Simplificado para mejor compatibilidad iOS
+        const messageText = 
+            '*NUEVA SOLICITUD DE SERVICIO*\n\n' +
+            '*Servicio:* ' + serviceType + '\n' +
+            '*Precio:* ' + currentServicePrice + '\n\n' +
+            '*DATOS DEL CLIENTE*\n' +
+            '*Nombre:* ' + fullName + '\n' +
+            '*Teléfono:* ' + phone + '\n' +
+            '*Dirección:* ' + address + '\n' +
+            (address2 ? '*Dirección 2:* ' + address2 + '\n' : '') +
+            '*Ciudad:* ' + city + '\n' +
+            '*Estado:* ' + state + '\n' +
+            '*Código Postal:* ' + zipcodeClean + '\n' +
+            (comments ? '*Comentarios:* ' + comments + '\n' : '') +
+            '\n*Fecha:* ' + new Date().toLocaleString('es-ES');
+
+        const whatsappMessage = encodeURIComponent(messageText);
+
+        console.log('Mensaje preparado, longitud:', whatsappMessage.length);
 
         // Ocultar formulario y mostrar animación de éxito
         requestForm.style.display = 'none';
         const successMessage = document.getElementById('successMessage');
         successMessage.style.display = 'block';
 
-        // Redirigir a WhatsApp después de 2 segundos
-        setTimeout(() => {
-            window.open(`https://wa.me/18437034758?text=${whatsappMessage}`, '_blank');
+        console.log('Mostrando mensaje de éxito');
+
+        // Construir URL de WhatsApp
+        const whatsappURL = 'https://wa.me/18437034758?text=' + whatsappMessage;
+        
+        console.log('URL de WhatsApp construida');
+
+        // Redirigir a WhatsApp - Método mejorado compatible con iOS
+        setTimeout(function() {
+            console.log('Intentando abrir WhatsApp');
+            
+            // Para iOS: usar location.href es más confiable
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            
+            if (isIOS) {
+                console.log('Dispositivo iOS detectado, usando location.href');
+                window.location.href = whatsappURL;
+            } else {
+                // Para otros dispositivos, intentar window.open primero
+                const whatsappWindow = window.open(whatsappURL, '_blank');
+                
+                // Si falla, usar location.href como backup
+                if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed === 'undefined') {
+                    console.log('window.open falló, usando location.href');
+                    window.location.href = whatsappURL;
+                } else {
+                    console.log('WhatsApp abierto con window.open');
+                }
+            }
             
             // Cerrar modal después de 3 segundos adicionales
-            setTimeout(() => {
+            setTimeout(function() {
+                console.log('Cerrando modal');
                 closeRequestModal();
             }, 3000);
-        }, 2000);
+        }, 1500); // Reducido a 1.5 segundos para mejor UX
+
+        return false;
     });
 }
 
 // ============================================
-// FORMULARIO DE TESTIMONIOS (código existente)
+// FORMULARIO DE TESTIMONIOS
 // ============================================
 
 const testimonialForm = document.getElementById('testimonialForm');
@@ -187,13 +230,16 @@ if (testimonialForm) {
         };
 
         // Mensaje para WhatsApp
-        const whatsappMessage = `*NUEVO TESTIMONIO*%0A%0A` +
-            `*Nombre:* ${formData.nombre}%0A` +
-            `*Ubicación:* ${formData.ubicacion}%0A` +
-            `*Calificación:* ${'⭐'.repeat(parseInt(formData.calificacion))}%0A` +
-            `*Testimonio:* ${formData.testimonio}%0A` +
-            `*Email:* ${formData.email}%0A` +
-            `*Fecha:* ${formData.fecha}`;
+        const messageText = 
+            '*NUEVO TESTIMONIO*\n\n' +
+            '*Nombre:* ' + formData.nombre + '\n' +
+            '*Ubicación:* ' + formData.ubicacion + '\n' +
+            '*Calificación:* ' + '⭐'.repeat(parseInt(formData.calificacion)) + '\n' +
+            '*Testimonio:* ' + formData.testimonio + '\n' +
+            '*Email:* ' + formData.email + '\n' +
+            '*Fecha:* ' + formData.fecha;
+
+        const whatsappMessage = encodeURIComponent(messageText);
 
         // Mostrar mensaje de éxito
         showMessage('¡Gracias por tu testimonio! Lo revisaremos y publicaremos pronto. Te hemos redirigido a WhatsApp para confirmar.', 'success');
@@ -202,8 +248,9 @@ if (testimonialForm) {
         testimonialForm.reset();
 
         // Abrir WhatsApp después de 2 segundos
-        setTimeout(() => {
-            window.open(`https://wa.me/18437034758?text=${whatsappMessage}`, '_blank');
+        setTimeout(function() {
+            const whatsappURL = 'https://wa.me/18437034758?text=' + whatsappMessage;
+            window.location.href = whatsappURL;
         }, 2000);
     });
 }
@@ -218,7 +265,7 @@ function showMessage(message, type) {
 
     // Ocultar mensaje después de 5 segundos si es error
     if (type === 'error') {
-        setTimeout(() => {
+        setTimeout(function() {
             formMessage.style.display = 'none';
         }, 5000);
     }
@@ -241,51 +288,56 @@ function createSuggestionsContainer() {
     suggestionsContainer.style.display = 'none';
     
     const addressInput = document.getElementById('address');
-    addressInput.parentNode.style.position = 'relative';
-    addressInput.parentNode.appendChild(suggestionsContainer);
+    if (addressInput) {
+        addressInput.parentNode.style.position = 'relative';
+        addressInput.parentNode.appendChild(suggestionsContainer);
+    }
 }
 
 // Buscar direcciones mientras el usuario escribe
-document.getElementById('address')?.addEventListener('input', function(e) {
-    const query = e.target.value.trim();
-    
-    // Solo buscar si hay al menos 5 caracteres
-    if (query.length < 5) {
-        hideSuggestions();
-        return;
-    }
-    
-    // Limpiar timeout anterior
-    clearTimeout(autocompleteTimeout);
-    
-    // Esperar 500ms después de que el usuario deje de escribir
-    autocompleteTimeout = setTimeout(() => {
-        searchAddresses(query);
-    }, 500);
-});
+const addressInput = document.getElementById('address');
+if (addressInput) {
+    addressInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim();
+        
+        // Solo buscar si hay al menos 5 caracteres
+        if (query.length < 5) {
+            hideSuggestions();
+            return;
+        }
+        
+        // Limpiar timeout anterior
+        clearTimeout(autocompleteTimeout);
+        
+        // Esperar 500ms después de que el usuario deje de escribir
+        autocompleteTimeout = setTimeout(function() {
+            searchAddresses(query);
+        }, 500);
+    });
+}
 
 // Buscar direcciones en OpenStreetMap
-async function searchAddresses(query) {
-    try {
-        // Agregar "USA" a la búsqueda para mejores resultados
-        const searchQuery = encodeURIComponent(`${query}, USA`);
-        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}&countrycodes=us&addressdetails=1&limit=5`;
-        
-        const response = await fetch(url, {
-            headers: {
-                'User-Agent': 'TramitesDMV/1.0' // Requerido por Nominatim
-            }
-        });
-        
+function searchAddresses(query) {
+    // Agregar "USA" a la búsqueda para mejores resultados
+    const searchQuery = encodeURIComponent(query + ', USA');
+    const url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + searchQuery + '&countrycodes=us&addressdetails=1&limit=5';
+    
+    fetch(url, {
+        headers: {
+            'User-Agent': 'TramitesDMV/1.0' // Requerido por Nominatim
+        }
+    })
+    .then(function(response) {
         if (!response.ok) throw new Error('Error en la búsqueda');
-        
-        const results = await response.json();
+        return response.json();
+    })
+    .then(function(results) {
         displaySuggestions(results);
-        
-    } catch (error) {
+    })
+    .catch(function(error) {
         console.error('Error al buscar direcciones:', error);
         hideSuggestions();
-    }
+    });
 }
 
 // Mostrar sugerencias
@@ -299,24 +351,22 @@ function displaySuggestions(results) {
     
     suggestionsContainer.innerHTML = '';
     
-    results.forEach(result => {
+    results.forEach(function(result) {
         const suggestion = document.createElement('div');
         suggestion.className = 'address-suggestion-item';
         
         // Formatear dirección
         const address = result.address;
-        const street = `${address.house_number || ''} ${address.road || ''}`.trim();
+        const street = ((address.house_number || '') + ' ' + (address.road || '')).trim();
         const city = address.city || address.town || address.village || '';
         const state = address.state || '';
         const zipcode = address.postcode || '';
         
         // Mostrar la dirección completa
-        suggestion.innerHTML = `
-            <div class="suggestion-main">${result.display_name}</div>
-        `;
+        suggestion.innerHTML = '<div class="suggestion-main">' + result.display_name + '</div>';
         
         // Al hacer clic en una sugerencia
-        suggestion.addEventListener('click', () => {
+        suggestion.addEventListener('click', function() {
             fillFormWithAddress(street, city, state, zipcode, result.display_name);
             hideSuggestions();
         });
@@ -341,11 +391,11 @@ function fillFormWithAddress(street, city, state, zipcode, fullAddress) {
     document.getElementById('zipcode').value = zipcode;
     
     // Feedback visual
-    [document.getElementById('city'), document.getElementById('state'), document.getElementById('zipcode')].forEach(field => {
+    [document.getElementById('city'), document.getElementById('state'), document.getElementById('zipcode')].forEach(function(field) {
         if (field.value) {
             field.style.borderColor = '#00a91c';
             field.style.backgroundColor = '#f0fff4';
-            setTimeout(() => {
+            setTimeout(function() {
                 field.style.borderColor = '';
                 field.style.backgroundColor = '';
             }, 2000);
@@ -363,14 +413,16 @@ function hideSuggestions() {
 // Cerrar sugerencias al hacer clic fuera
 document.addEventListener('click', function(e) {
     const addressInput = document.getElementById('address');
-    if (e.target !== addressInput && !suggestionsContainer?.contains(e.target)) {
+    if (addressInput && e.target !== addressInput && suggestionsContainer && !suggestionsContainer.contains(e.target)) {
         hideSuggestions();
     }
 });
 
 // Prevenir que Enter envíe el formulario al seleccionar sugerencia
-document.getElementById('address')?.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && suggestionsContainer?.style.display === 'block') {
-        e.preventDefault();
-    }
-});
+if (addressInput) {
+    addressInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && suggestionsContainer && suggestionsContainer.style.display === 'block') {
+            e.preventDefault();
+        }
+    });
+}

@@ -4,7 +4,7 @@
 const EMAILJS_CONFIG = {
     publicKey: 'z6-wlU764P-CF53Nb',
     serviceId: 'service_4ga03vh',
-    templateId: 'template_7z598dp'
+    templateId: 'template_6y443vt'
 };
 
 // Inicializar EmailJS

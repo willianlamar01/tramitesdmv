@@ -6,29 +6,26 @@
     <link rel="stylesheet" href="styles.css">
     <title>Trámites DMV - Licencias y Placas sin Filas</title>
     
-    <!-- Favicon -->
-    <!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="favion.ico">
+    <link rel="icon" type="image/x-icon" href="favion.ico">
     
-    <!-- Meta tags mejorados para SEO -->
     <meta name="description" content="Profesional certificado del DMV. Obtén tu licencia de conducir, placas temporales e ID sin filas. Servicio rápido, legal y confiable.">
     <meta name="keywords" content="DMV, licencia de conducir, placas temporales, identificación, trámites, sin filas, California">
     <meta name="author" content="Trámites DMV">
     <meta name="robots" content="index, follow">
     
-    <!-- Open Graph para redes sociales -->
     <meta property="og:title" content="Trámites DMV - Sin Filas ni Esperas">
     <meta property="og:description" content="Profesional certificado del DMV. Obtén tus documentos sin complicaciones.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tramitesdmv.com">
     
-    <!-- Compatibilidad con navegadores -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Government Banner -->
@@ -45,6 +42,7 @@
             <div>Profesional del Departamento de Vehículos Motorizados</div>
             <div class="header-top-links">
                 <a href="#services">Servicios</a>
+                <a href="#exam-section">Examen DMV</a>
                 <a href="#contact">Contacto</a>
                 <a href="#testimonials">Testimonios</a>
             </div>
@@ -104,6 +102,7 @@
                 <div class="cta-buttons">
                     <a href="https://wa.me/18437034758" target="_blank" class="btn-primary">WhatsApp Ahora</a>
                     <a href="#services" class="btn-secondary">Ver Servicios</a>
+                    <a href="#exam-section" class="btn-secondary">Practicar Examen</a>
                 </div>
             </div>
         </div>
@@ -212,7 +211,6 @@
                     </div>
                 </div>
 
-
                 <div class="service-card">
                     <div class="service-header">
                         <div class="service-icon">⚡</div>
@@ -235,6 +233,90 @@
                             $250<br><small>Desde</small>
                         </div>
                         <button onclick="openRequestModal('Servicio Express VIP', '$250')" class="btn-primary">Solicitar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECCIÓN EXAMEN DMV CALIFORNIA               -->
+    <!-- ============================================ -->
+    <section id="exam-section" class="exam-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>🚦 Practica el Examen DMV de California</h2>
+                <p>Practica con preguntas oficiales del examen de manejo de California. ¡Prepárate antes de tu cita!</p>
+            </div>
+
+            <div class="exam-container">
+                <!-- Pantalla de inicio del examen -->
+                <div id="exam-start" class="exam-screen">
+                    <div class="exam-intro">
+                        <div class="exam-intro-icon">📋</div>
+                        <h3>Examen de Práctica DMV California</h3>
+                        <p>Este examen contiene <strong>20 preguntas</strong> basadas en el manual oficial del DMV de California.</p>
+                        <div class="exam-rules">
+                            <div class="exam-rule">
+                                <span class="rule-icon">✓</span>
+                                <span>Necesitas <strong>15 respuestas correctas</strong> (75%) para aprobar</span>
+                            </div>
+                            <div class="exam-rule">
+                                <span class="rule-icon">✓</span>
+                                <span>Cada pregunta tiene <strong>3 opciones</strong> de respuesta</span>
+                            </div>
+                            <div class="exam-rule">
+                                <span class="rule-icon">✓</span>
+                                <span>Al final verás tu puntuación y las respuestas correctas</span>
+                            </div>
+                        </div>
+                        <button onclick="startExam()" class="btn-primary" style="font-size: 18px; padding: 16px 50px; margin-top: 20px;">
+                            Comenzar Examen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pantalla del examen activo -->
+                <div id="exam-active" class="exam-screen" style="display:none;">
+                    <div class="exam-progress-bar-container">
+                        <div class="exam-progress-info">
+                            <span id="question-counter">Pregunta 1 de 20</span>
+                            <span id="exam-score-live">✓ 0 correctas</span>
+                        </div>
+                        <div class="exam-progress-bar">
+                            <div id="exam-progress-fill" class="exam-progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <div id="question-number-badge" class="question-number-badge">1</div>
+                        <h3 id="question-text" class="question-text"></h3>
+                        <div id="options-container" class="options-container"></div>
+                        <div id="answer-feedback" class="answer-feedback" style="display:none;"></div>
+                        <button id="next-btn" onclick="nextQuestion()" class="btn-primary next-btn" style="display:none;">
+                            Siguiente Pregunta →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pantalla de resultados -->
+                <div id="exam-results" class="exam-screen" style="display:none;">
+                    <div class="results-container">
+                        <div id="results-icon" class="results-icon"></div>
+                        <h3 id="results-title" class="results-title"></h3>
+                        <div id="results-score" class="results-score"></div>
+                        <p id="results-message" class="results-message"></p>
+                        
+                        <div id="results-breakdown" class="results-breakdown"></div>
+
+                        <div class="results-actions">
+                            <button onclick="restartExam()" class="btn-secondary" style="color: var(--primary-blue); border-color: var(--primary-blue);">
+                                🔄 Repetir Examen
+                            </button>
+                            <button onclick="openRequestModal('Licencia de Conducir', '$150')" class="btn-primary">
+                                📋 Solicitar Servicio
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,8 +403,8 @@
                 <div class="process-step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>Consulta Gratuita</h3>
-                        <p>Analizo su situación específica, le explico exactamente qué documentos necesita, cuánto tiempo tomará el proceso y el costo total. Todo claro y sin sorpresas.</p>
+                        <h3>Agenda su Cita</h3>
+                        <p>Elija el día y la hora que más le convenga. Le enviamos confirmación inmediata por correo electrónico con todos los detalles de su cita.</p>
                     </div>
                 </div>
 
@@ -338,7 +420,7 @@
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h3>Entrega de Documentos</h3>
-                        <p>Le entrego sus documentos completamente procesados y listos para usar, sin que haya tenido que pisar una oficina del DMV ni hacer ninguna fila.</p>
+                        <p>Le entregamos sus documentos completamente procesados y listos para usar, sin que haya tenido que pisar una oficina del DMV ni hacer ninguna fila.</p>
                     </div>
                 </div>
             </div>
@@ -380,11 +462,7 @@
                         <span>▼</span>
                     </div>
                     <div class="faq-answer">
-                        Los requisitos pueden variar según el tipo de trámite. En la mayoría de los casos se solicita identificación oficial y comprobante de domicilio.
-
-Sin embargo, si actualmente no cuenta con identificación o documentos completos, no se preocupe. Evaluamos cada caso de manera individual y le orientamos sobre las alternativas disponibles y los pasos que puede seguir para regularizar su situación.
-
-Durante la consulta gratuita le indicaré exactamente qué necesita para su caso específico y cuáles son sus opciones.
+                        Los requisitos pueden variar según el tipo de trámite. En la mayoría de los casos se solicita identificación oficial y comprobante de domicilio. Sin embargo, si actualmente no cuenta con identificación o documentos completos, evaluamos cada caso de manera individual y le orientamos sobre las alternativas disponibles. Durante la consulta gratuita le indicaré exactamente qué necesita para su caso específico.
                     </div>
                 </div>
 
@@ -400,21 +478,21 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>¿Ofrecen garantía de satisfacción?</span>
+                        <span>¿Se requiere depósito para reservar mi cita?</span>
                         <span>▼</span>
                     </div>
                     <div class="faq-answer">
-                        Sí, garantizo que todos los trámites se procesarán correctamente. Si hay algún problema con la documentación por nuestra parte, lo resolveremos sin costo adicional. Su satisfacción es mi prioridad.
+                        Sí, se requiere un depósito del 50% del servicio al momento de agendar su cita para garantizar su lugar. El resto se paga al momento de recibir sus documentos. Aceptamos Zelle, CashApp y efectivo.
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>¿Puedo confiar en este servicio?</span>
+                        <span>¿Ofrecen garantía de satisfacción?</span>
                         <span>▼</span>
                     </div>
                     <div class="faq-answer">
-                        Absolutamente. Contamos con más de 500 clientes satisfechos y una tasa de aprobación del 98%. Todos nuestros testimonios son verificados y puede consultar nuestras redes sociales para ver opiniones reales de clientes.
+                        Sí, garantizo que todos los trámites se procesarán correctamente. Si hay algún problema con la documentación por nuestra parte, lo resolveremos sin costo adicional. Su satisfacción es mi prioridad.
                     </div>
                 </div>
             </div>
@@ -447,7 +525,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                     </div>
                     <p>"Después de meses intentando sacar cita en el DMV sin éxito, encontré este servicio. En menos de una semana tenía mis placas temporales. Excelente atención, muy profesional y todo completamente oficial."</p>
                     <div class="testimonial-author">— Carlos Rodríguez</div>
-                    <div class="testimonial-location">Miami, FL</div>
+                    <div class="testimonial-location">San Diego, CA</div>
                 </div>
 
                 <div class="testimonial">
@@ -455,9 +533,9 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                         <div class="testimonial-stars">★★★★★</div>
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
-                    <p>"Obtuve mi licencia en tiempo récord gracias a este servicio. Todo fue muy fácil y sin complicaciones. El profesional me explicó cada paso y me mantuvo informada. Altamente recomendado para cualquier trámite del DMV."</p>
+                    <p>"Obtuve mi licencia en tiempo récord gracias a este servicio. Todo fue muy fácil y sin complicaciones. El profesional me explicó cada paso y me mantuvo informada. Altamente recomendado."</p>
                     <div class="testimonial-author">— Ana Martínez</div>
-                    <div class="testimonial-location">Houston, TX</div>
+                    <div class="testimonial-location">San Francisco, CA</div>
                 </div>
 
                 <div class="testimonial">
@@ -465,9 +543,9 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                         <div class="testimonial-stars">★★★★★</div>
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
-                    <p>"Servicio VIP totalmente recomendado. Necesitaba mi REAL ID para un viaje internacional y lo obtuve en 48 horas. Profesional, rápido, confiable y completamente legal. Vale cada centavo."</p>
+                    <p>"Servicio VIP totalmente recomendado. Necesitaba mi REAL ID para un viaje y lo obtuve en 48 horas. Profesional, rápido, confiable y completamente legal. Vale cada centavo."</p>
                     <div class="testimonial-author">— Luis Hernández</div>
-                    <div class="testimonial-location">Phoenix, AZ</div>
+                    <div class="testimonial-location">Sacramento, CA</div>
                 </div>
 
                 <div class="testimonial">
@@ -477,7 +555,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                     </div>
                     <p>"La mejor decisión que tomé. No entiendo por qué perdí tanto tiempo en filas del DMV cuando podía haber contratado este servicio desde el principio. Ahora lo recomiendo a todos mis conocidos."</p>
                     <div class="testimonial-author">— Patricia Sánchez</div>
-                    <div class="testimonial-location">Las Vegas, NV</div>
+                    <div class="testimonial-location">Fresno, CA</div>
                 </div>
 
                 <div class="testimonial">
@@ -485,69 +563,9 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                         <div class="testimonial-stars">★★★★★</div>
                         <span class="verified-badge">✓ Verificado</span>
                     </div>
-                    <p>"Excelente atención al cliente desde el primer contacto. Me explicó todo claramente, respondió todas mis preguntas y me mantuvo informado durante todo el proceso. Muy satisfecho con el resultado y la legalidad del servicio."</p>
+                    <p>"Excelente atención al cliente desde el primer contacto. Me explicó todo claramente, respondió todas mis preguntas y me mantuvo informado durante todo el proceso. Muy satisfecho."</p>
                     <div class="testimonial-author">— Roberto Díaz</div>
-                    <div class="testimonial-location">Dallas, TX</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Contraté el servicio para renovar mi licencia y fue extraordinario. El proceso fue rápido, transparente y sin complicaciones. Me ahorraron días de espera y trámites burocráticos. Definitivamente volveré a usar este servicio."</p>
-                    <div class="testimonial-author">— Jennifer Torres</div>
-                    <div class="testimonial-location">Orlando, FL</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Como madre trabajadora, no tenía tiempo para hacer filas en el DMV. Este servicio fue mi salvación. Obtuve mi REAL ID en menos de una semana sin salir de casa. Simplemente perfecto!"</p>
-                    <div class="testimonial-author">— Sandra Morales</div>
-                    <div class="testimonial-location">Atlanta, GA</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Necesitaba placas temporales urgentemente y este servicio las procesó el mismo día. La comunicación fue excelente, me mantuvieron informado en todo momento. Precio justo por un servicio de primera calidad."</p>
-                    <div class="testimonial-author">— Miguel Ramírez</div>
-                    <div class="testimonial-location">San Antonio, TX</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Muy buen servicio. Tardó un poco más de lo esperado (5 días en lugar de 3), pero el resultado fue perfecto. La licencia es completamente válida y funcional. Recomendado para quien no quiera perder tiempo en filas."</p>
-                    <div class="testimonial-author">— Jorge Castro</div>
-                    <div class="testimonial-location">Charlotte, NC</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Contraté el servicio Express VIP y fue increíble. En 36 horas tenía mi licencia lista. El profesional fue muy atento, respondió todas mis dudas por WhatsApp y el proceso fue transparente de principio a fin."</p>
-                    <div class="testimonial-author">— Andrea Gutiérrez</div>
-                    <div class="testimonial-location">Denver, CO</div>
-                </div>
-
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-stars">★★★★</div>
-                        <span class="verified-badge">✓ Verificado</span>
-                    </div>
-                    <p>"Servicio confiable y profesional. Me ayudaron con toda la documentación necesaria y el proceso fue muy sencillo. El precio es razonable considerando el tiempo y las molestias que me ahorraron. Lo recomiendo."</p>
-                    <div class="testimonial-author">— Fernando López</div>
-                    <div class="testimonial-location">Nashville, TN</div>
+                    <div class="testimonial-location">Oakland, CA</div>
                 </div>
             </div>
 
@@ -565,10 +583,9 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                                 <label for="name">Tu Nombre *</label>
                                 <input type="text" id="name" name="name" required placeholder="Ej: María González">
                             </div>
-
                             <div class="form-group">
                                 <label for="location">Ciudad y Estado *</label>
-                                <input type="text" id="location" name="location" required placeholder="Ej: Miami, FL">
+                                <input type="text" id="location" name="location" required placeholder="Ej: Los Angeles, CA">
                             </div>
                         </div>
 
@@ -636,7 +653,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                     <div class="contact-card-icon">✉️</div>
                     <h3>Correo Electrónico</h3>
                     <p>Respuesta en 24 horas</p>
-                    <a href="mailto:infotramitesdmv@gmail.com">infotramitesdmv@gmail.com</a>
+                    <a href="mailto:tramites.dmv.express@gmail.com">tramites.dmv.express@gmail.com</a>
                 </div>
 
                 <div class="contact-card">
@@ -657,7 +674,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Trámites DMV</h3>
-                <p>Profesional certificado del DMV con años de experiencia ayudando a obtener licencias de conducir, placas temporales e identificaciones oficiales sin filas ni complicaciones.</p>
+                <p>Profesional certificado del DMV con años de experiencia ayudando a obtener licencias de conducir, placas temporales e identificaciones oficiales sin filas ni complicaciones. Servicio en California.</p>
                 <span class="footer-badge">✓ Servicio 100% Legal y Oficial</span>
             </div>
 
@@ -666,7 +683,7 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                 <ul>
                     <li><a href="#services">Licencias de Conducir</a></li>
                     <li><a href="#services">Placas Temporales</a></li>
-                    <li><a href="#services">Asistencia con Exámenes</a></li>
+                    <li><a href="#exam-section">Examen de Práctica DMV</a></li>
                     <li><a href="#services">Servicio Express VIP</a></li>
                 </ul>
             </div>
@@ -677,13 +694,14 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                     <li><a href="#services">Precios y Servicios</a></li>
                     <li><a href="#testimonials">Testimonios</a></li>
                     <li><a href="#contact">Contacto</a></li>
+                    <li><a href="#exam-section">Practicar Examen</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
                 <h3>Contacto Directo</h3>
                 <p><strong>WhatsApp:</strong><br>+1 (843) 703-4758</p>
-                <p><strong>Email:</strong><br>infotramitesdmv@gmail.com</p>
+                <p><strong>Email:</strong><br>tramites.dmv.express@gmail.com</p>
                 <p><strong>Horario:</strong><br>Lun-Sáb: 8:00 AM - 8:00 PM</p>
             </div>
         </div>
@@ -701,12 +719,14 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
 
         <div class="footer-bottom">
             <p>© 2026 Trámites DMV. Todos los derechos reservados.</p>
-            <p>Profesional Certificado del DMV - Servicio Legal, Oficial y Confiable</p>
+            <p>Profesional Certificado del DMV - Servicio Legal, Oficial y Confiable - California</p>
             <p style="margin-top: 10px; font-size: 12px;">tramitesdmv.com</p>
         </div>
     </footer>
 
-    <!-- Modal de Formulario de Solicitud -->
+    <!-- ============================================ -->
+    <!-- MODAL DE SOLICITUD CON SELECTOR DE CITA     -->
+    <!-- ============================================ -->
     <div id="requestModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -717,66 +737,142 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
             <div class="modal-body">
                 <form id="requestForm" class="request-form" novalidate>
                     <input type="hidden" id="serviceType" name="serviceType">
-                    
-                    <div class="form-group">
-                        <label for="fullName">Nombre Completo *</label>
-                        <input type="text" id="fullName" name="fullName" required 
-                               placeholder="Ej: Juan Pérez García">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="address">Dirección *</label>
-                        <input type="text" id="address" name="address" required 
-                               placeholder="Ej: 123 Main Street">
-                    </div>
+                    <!-- PASO 1: Datos personales -->
+                    <div id="step1" class="form-step">
+                        <div class="step-indicator">
+                            <div class="step-dot active">1</div>
+                            <div class="step-line"></div>
+                            <div class="step-dot">2</div>
+                            <div class="step-line"></div>
+                            <div class="step-dot">3</div>
+                        </div>
+                        <p class="step-label">Paso 1 de 3 — Datos Personales</p>
 
-                    <div class="form-group">
-                        <label for="address2">Dirección 2 (Apt, Suite, Casa) <small style="color: var(--text-gray); font-weight: 400;">(Opcional)</small></label>
-                        <input type="text" id="address2" name="address2" 
-                               placeholder="Ej: Apt 4B, Suite 200, Casa 5">
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="city">Ciudad *</label>
-                            <input type="text" id="city" name="city" required 
-                                   placeholder="Ej: Miami">
+                            <label for="fullName">Nombre Completo *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Ej: Juan Pérez García">
                         </div>
 
                         <div class="form-group">
-                            <label for="state">Estado *</label>
-                            <input type="text" id="state" name="state" required 
-                                   placeholder="Ej: FL">
+                            <label for="clientEmail">Correo Electrónico *</label>
+                            <input type="email" id="clientEmail" name="clientEmail" required placeholder="tu@correo.com">
+                            <small style="color: var(--text-gray); font-size: 12px;">Le enviaremos la confirmación de su cita aquí</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Número de Teléfono *</label>
+                            <input type="tel" id="phone" name="phone" required inputmode="tel" placeholder="Ej: (555) 123-4567">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Dirección *</label>
+                            <input type="text" id="address" name="address" required placeholder="Ej: 123 Main Street">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address2">Dirección 2 (Apt, Suite, Casa) <small style="color: var(--text-gray); font-weight: 400;">(Opcional)</small></label>
+                            <input type="text" id="address2" name="address2" placeholder="Ej: Apt 4B">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Ciudad *</label>
+                                <input type="text" id="city" name="city" required placeholder="Ej: Los Angeles">
+                            </div>
+                            <div class="form-group">
+                                <label for="state">Estado *</label>
+                                <input type="text" id="state" name="state" required placeholder="CA" value="CA">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zipcode">Código Postal (ZIP) *</label>
+                            <input type="text" id="zipcode" name="zipcode" required inputmode="numeric" maxlength="5" placeholder="Ej: 90210">
+                        </div>
+
+                        <button type="button" onclick="goToStep2()" class="btn-primary" style="width: 100%; font-size: 16px;">
+                            Continuar → Elegir Cita
+                        </button>
+                    </div>
+
+                    <!-- PASO 2: Selector de cita -->
+                    <div id="step2" class="form-step" style="display:none;">
+                        <div class="step-indicator">
+                            <div class="step-dot completed">✓</div>
+                            <div class="step-line active"></div>
+                            <div class="step-dot active">2</div>
+                            <div class="step-line"></div>
+                            <div class="step-dot">3</div>
+                        </div>
+                        <p class="step-label">Paso 2 de 3 — Elegir Fecha y Hora</p>
+
+                        <div class="appointment-section">
+                            <h4 class="appointment-title">📅 Seleccione el Día</h4>
+                            <div id="calendar-container" class="calendar-container"></div>
+                        </div>
+
+                        <div id="time-slots-section" class="appointment-section" style="display:none;">
+                            <h4 class="appointment-title">🕐 Seleccione la Hora</h4>
+                            <div id="time-slots" class="time-slots"></div>
+                        </div>
+
+                        <div id="selected-appointment-preview" class="selected-appointment-preview" style="display:none;">
+                            <span class="appointment-preview-icon">✅</span>
+                            <div>
+                                <strong>Cita seleccionada:</strong><br>
+                                <span id="appointment-summary"></span>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:10px; margin-top:20px;">
+                            <button type="button" onclick="goToStep1()" class="btn-secondary" style="flex:1; color: var(--primary-blue); border: 2px solid var(--primary-blue);">
+                                ← Atrás
+                            </button>
+                            <button type="button" id="step2-next" onclick="goToStep3()" class="btn-primary" style="flex:2;" disabled>
+                                Continuar → Confirmar
+                            </button>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="zipcode">Código Postal (ZIP) *</label>
-                        <input type="text" id="zipcode" name="zipcode" required 
-                               inputmode="numeric"
-                               maxlength="5"
-                               placeholder="Ej: 33101">
-                    </div>
+                    <!-- PASO 3: Confirmación y comentarios -->
+                    <div id="step3" class="form-step" style="display:none;">
+                        <div class="step-indicator">
+                            <div class="step-dot completed">✓</div>
+                            <div class="step-line active"></div>
+                            <div class="step-dot completed">✓</div>
+                            <div class="step-line active"></div>
+                            <div class="step-dot active">3</div>
+                        </div>
+                        <p class="step-label">Paso 3 de 3 — Confirmar Solicitud</p>
 
-                    <div class="form-group">
-                        <label for="phone">Número de Teléfono *</label>
-                        <input type="tel" id="phone" name="phone" required 
-                               inputmode="tel"
-                               placeholder="Ej: (555) 123-4567">
-                    </div>
+                        <div id="confirmation-summary" class="confirmation-summary"></div>
 
-                    <div class="form-group">
-                        <label for="comments">Comentarios Adicionales (Opcional)</label>
-                        <textarea id="comments" name="comments" rows="3" 
-                                  placeholder="¿Algo más que debamos saber?"></textarea>
-                    </div>
+                        <div class="deposit-notice">
+                            <span class="deposit-icon">💳</span>
+                            <div>
+                                <strong>Depósito requerido: 50% del servicio</strong><br>
+                                <small>Se coordina el pago por WhatsApp después de confirmar su cita. Aceptamos Zelle, CashApp, western union, Ria entre otras.</small>
+                            </div>
+                        </div>
 
-                    <button type="submit" class="btn-primary" style="width: 100%; font-size: 18px;">
-                        Enviar Solicitud
-                    </button>
+                        <div class="form-group">
+                            <label for="comments">Comentarios Adicionales (Opcional)</label>
+                            <textarea id="comments" name="comments" rows="3" placeholder="¿Algo más que debamos saber sobre su trámite?"></textarea>
+                        </div>
+
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <button type="button" onclick="goToStep2()" class="btn-secondary" style="flex:1; color: var(--primary-blue); border: 2px solid var(--primary-blue);">
+                                ← Atrás
+                            </button>
+                            <button type="submit" class="btn-primary" style="flex:2; font-size: 16px;">
+                                ✅ Confirmar Solicitud
+                            </button>
+                        </div>
+                    </div>
                 </form>
 
-                <!-- Mensaje de Éxito (oculto inicialmente) -->
+                <!-- Mensaje de Éxito -->
                 <div id="successMessage" class="success-animation" style="display: none;">
                     <div class="success-checkmark">
                         <div class="check-icon">
@@ -786,8 +882,9 @@ Durante la consulta gratuita le indicaré exactamente qué necesita para su caso
                             <div class="icon-fix"></div>
                         </div>
                     </div>
-                    <h3>¡Solicitud Enviada!</h3>
-                    <p>Te estamos redirigiendo a WhatsApp...</p>
+                    <h3>¡Solicitud Confirmada!</h3>
+                    <p id="success-details">Hemos enviado la confirmación a su correo.</p>
+                    <p style="margin-top:10px; color: var(--text-gray);">En breve nos pondremos en contacto para coordinar el pago del depósito.</p>
                 </div>
             </div>
         </div>

@@ -1,12 +1,6 @@
 // ============================================
 // EMAILJS - CONFIGURA TUS DATOS AQUÍ
 // ============================================
-// INSTRUCCIONES:
-// 1. Ve a https://www.emailjs.com y crea cuenta gratis
-// 2. Conecta tu Gmail (tramites.dmv.express@gmail.com)
-// 3. Crea un "Email Template" y copia los IDs
-// 4. Reemplaza los valores de abajo con tus IDs reales
-
 const EMAILJS_CONFIG = {
     publicKey: 'z6-wlU764P-CF53Nb',
     serviceId: 'service_4ga03vh',
@@ -211,16 +205,13 @@ function showQuestion() {
     const q = examQuestions[currentQuestion];
     const total = examQuestions.length;
 
-    // Actualizar progreso
     document.getElementById('question-counter').textContent = `Pregunta ${currentQuestion + 1} de ${total}`;
     document.getElementById('exam-score-live').textContent = `✓ ${correctAnswers} correctas`;
     document.getElementById('question-number-badge').textContent = currentQuestion + 1;
     document.getElementById('exam-progress-fill').style.width = `${(currentQuestion / total) * 100}%`;
 
-    // Mostrar pregunta
     document.getElementById('question-text').textContent = q.question;
 
-    // Crear opciones
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
     const letters = ['A', 'B', 'C'];
@@ -234,11 +225,9 @@ function showQuestion() {
         optionsContainer.appendChild(btn);
     });
 
-    // Ocultar feedback y botón siguiente
     document.getElementById('answer-feedback').style.display = 'none';
     document.getElementById('next-btn').style.display = 'none';
 
-    // Actualizar texto del botón siguiente
     const nextBtn = document.getElementById('next-btn');
     nextBtn.textContent = currentQuestion < examQuestions.length - 1 ? 'Siguiente Pregunta →' : 'Ver Resultados →';
 }
@@ -252,10 +241,8 @@ function selectAnswer(selectedIndex) {
     if (isCorrect) correctAnswers++;
     userAnswers.push({ selected: selectedIndex, correct: q.correct, isCorrect });
 
-    // Deshabilitar todos los botones
     options.forEach(btn => btn.disabled = true);
 
-    // Marcar respuestas
     options.forEach((btn, index) => {
         if (index === q.correct) {
             btn.classList.add(isCorrect ? 'correct' : 'show-correct');
@@ -265,23 +252,18 @@ function selectAnswer(selectedIndex) {
         }
     });
 
-    // Mostrar feedback
     feedback.className = 'answer-feedback ' + (isCorrect ? 'correct-feedback' : 'incorrect-feedback');
     feedback.innerHTML = isCorrect
         ? `✅ <strong>¡Correcto!</strong> ${q.explanation}`
         : `❌ <strong>Incorrecto.</strong> ${q.explanation}`;
     feedback.style.display = 'block';
 
-    // Actualizar puntaje en vivo
     document.getElementById('exam-score-live').textContent = `✓ ${correctAnswers} correctas`;
-
-    // Mostrar botón siguiente
     document.getElementById('next-btn').style.display = 'block';
 }
 
 function nextQuestion() {
     currentQuestion++;
-
     if (currentQuestion >= examQuestions.length) {
         showResults();
     } else {
@@ -295,7 +277,7 @@ function showResults() {
 
     const total = examQuestions.length;
     const percentage = Math.round((correctAnswers / total) * 100);
-    const passed = correctAnswers >= 15; // 75% mínimo
+    const passed = correctAnswers >= 15;
 
     document.getElementById('results-icon').textContent = passed ? '🎉' : '📚';
     document.getElementById('results-title').textContent = passed ? '¡Felicitaciones! Aprobaste' : 'Necesitas Practicar Más';
@@ -304,7 +286,6 @@ function showResults() {
         ? `¡Excelente! Obtuviste ${correctAnswers} de ${total} respuestas correctas. Estás listo para el examen oficial del DMV.`
         : `Obtuviste ${correctAnswers} de ${total} respuestas correctas. Necesitas al menos 15 (75%) para aprobar el examen oficial. ¡Sigue practicando!`;
 
-    // Desglose
     const breakdown = document.getElementById('results-breakdown');
     const wrongAnswers = userAnswers.filter(a => !a.isCorrect).length;
     breakdown.innerHTML = `
@@ -345,12 +326,10 @@ function openRequestModal(serviceName, price) {
     document.getElementById('modalTitle').textContent = `Solicitud: ${serviceName}`;
     document.getElementById('serviceType').value = serviceName;
 
-    // Reset al paso 1
     goToStep1();
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-    // Renderizar calendario
     setTimeout(() => renderCalendar(), 100);
 }
 
@@ -358,7 +337,6 @@ function closeRequestModal() {
     document.getElementById('requestModal').classList.remove('active');
     document.body.style.overflow = '';
 
-    // Reset
     document.getElementById('requestForm').style.display = 'block';
     document.getElementById('successMessage').style.display = 'none';
     document.getElementById('requestForm').reset();
@@ -375,7 +353,6 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeRequestModal();
 });
 
-// Navegación entre pasos
 function goToStep1() {
     document.getElementById('step1').style.display = 'block';
     document.getElementById('step2').style.display = 'none';
@@ -383,7 +360,6 @@ function goToStep1() {
 }
 
 function goToStep2() {
-    // Validar paso 1
     const fullName = document.getElementById('fullName').value.trim();
     const clientEmail = document.getElementById('clientEmail').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -425,7 +401,6 @@ function goToStep3() {
     document.getElementById('step2').style.display = 'none';
     document.getElementById('step3').style.display = 'block';
 
-    // Mostrar resumen de confirmación
     const serviceType = document.getElementById('serviceType').value;
     const fullName = document.getElementById('fullName').value.trim();
     const clientEmail = document.getElementById('clientEmail').value.trim();
@@ -509,7 +484,6 @@ function renderCalendar() {
         <div class="calendar-days">
     `;
 
-    // Espacios vacíos al inicio
     for (let i = 0; i < firstDay; i++) {
         html += `<div class="cal-day empty"></div>`;
     }
@@ -519,7 +493,6 @@ function renderCalendar() {
         date.setHours(0, 0, 0, 0);
         const dayOfWeek = date.getDay();
 
-        // Domingo = 0 (deshabilitado). Lun-Sab = disponibles
         const isPast = date < today;
         const isSunday = dayOfWeek === 0;
         const isToday = date.getTime() === today.getTime();
@@ -547,10 +520,8 @@ function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
     selectedTime = null;
 
-    // Re-renderizar calendario para mostrar selección
     renderCalendar();
 
-    // Mostrar horarios disponibles
     const timeSlotsSection = document.getElementById('time-slots-section');
     timeSlotsSection.style.display = 'block';
 
@@ -559,7 +530,6 @@ function selectDate(year, month, day) {
         <div class="time-slot" onclick="selectTime('${slot}')">${slot}</div>
     `).join('');
 
-    // Ocultar preview y deshabilitar siguiente
     document.getElementById('selected-appointment-preview').style.display = 'none';
     document.getElementById('step2-next').disabled = true;
 }
@@ -567,31 +537,31 @@ function selectDate(year, month, day) {
 function selectTime(time) {
     selectedTime = time;
 
-    // Marcar el slot seleccionado
     document.querySelectorAll('.time-slot').forEach(slot => {
         slot.classList.toggle('selected', slot.textContent === time);
     });
 
-    // Mostrar resumen de cita seleccionada
     const dateStr = selectedDate.toLocaleDateString('es-ES', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
 
     document.getElementById('appointment-summary').textContent = `${dateStr} a las ${time}`;
     document.getElementById('selected-appointment-preview').style.display = 'flex';
-
-    // Habilitar botón siguiente
     document.getElementById('step2-next').disabled = false;
 }
 
 // ============================================
-// ENVÍO DEL FORMULARIO CON EMAILJS
+// ENVÍO DEL FORMULARIO - SOLO CORREO (SIN WHATSAPP)
 // ============================================
 
 const requestForm = document.getElementById('requestForm');
 if (requestForm) {
     requestForm.addEventListener('submit', function(e) {
         e.preventDefault();
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
 
         const serviceType = document.getElementById('serviceType').value;
         const fullName = document.getElementById('fullName').value.trim();
@@ -608,10 +578,8 @@ if (requestForm) {
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
         }) : 'No seleccionada';
 
-        // Número de confirmación único
         const confirmationNumber = 'DMV-' + Date.now().toString().slice(-6);
 
-        // Datos para EmailJS
         const templateParams = {
             confirmation_number: confirmationNumber,
             service_type: serviceType,
@@ -628,54 +596,112 @@ if (requestForm) {
             to_email: 'tramites.dmv.express@gmail.com'
         };
 
-        // Mostrar éxito inmediatamente (para mejor UX)
-        requestForm.style.display = 'none';
-        const successMessage = document.getElementById('successMessage');
-        successMessage.style.display = 'block';
-        document.getElementById('success-details').innerHTML = `
-            <strong>Confirmación #${confirmationNumber}</strong><br>
-            Cita: ${dateStr} a las ${selectedTime}<br>
-            Recibirá un correo en: ${clientEmail}
-        `;
-
         // Enviar correo via EmailJS
-        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'TU_PUBLIC_KEY_AQUI') {
+        if (typeof emailjs !== 'undefined') {
             emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams)
                 .then(function() {
-                    console.log('Correo enviado exitosamente');
+                    // Éxito - mostrar mensaje de confirmación
+                    requestForm.style.display = 'none';
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.style.display = 'block';
+                    document.getElementById('success-details').innerHTML = `
+                        <strong>Confirmación #${confirmationNumber}</strong><br>
+                        Cita: ${dateStr} a las ${selectedTime}<br>
+                        Recibirá un correo en: ${clientEmail}
+                    `;
+                    // Cerrar modal después de 4 segundos
+                    setTimeout(() => closeRequestModal(), 4000);
                 })
                 .catch(function(error) {
-                    console.error('Error al enviar correo:', error);
-                    // El usuario ya vio el mensaje de éxito, así que no mostramos error
+                    console.error('Error EmailJS:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '✅ Confirmar Solicitud';
+                    alert('Hubo un error al enviar su solicitud. Por favor intente de nuevo o contáctenos por WhatsApp.');
                 });
+        } else {
+            // EmailJS no cargó
+            submitBtn.disabled = false;
+            submitBtn.textContent = '✅ Confirmar Solicitud';
+            alert('Error de conexión. Por favor contáctenos directamente por WhatsApp al +1 (843) 703-4758.');
         }
-
-        // También enviar por WhatsApp como respaldo
-        const whatsappMsg = 
-            `*NUEVA SOLICITUD #${confirmationNumber}*\n\n` +
-            `*Servicio:* ${serviceType} (${currentServicePrice})\n` +
-            `*Cliente:* ${fullName}\n` +
-            `*Correo:* ${clientEmail}\n` +
-            `*Teléfono:* ${phone}\n` +
-            `*Dirección:* ${address}${address2 ? ', ' + address2 : ''}\n` +
-            `*Ciudad:* ${city}, ${state} ${zipcode}\n` +
-            `*Cita:* ${dateStr} a las ${selectedTime}\n` +
-            (comments ? `*Comentarios:* ${comments}\n` : '') +
-            `*Fecha solicitud:* ${new Date().toLocaleString('es-ES')}`;
-
-        setTimeout(() => {
-            closeRequestModal();
-            // Abrir WhatsApp después de cerrar el modal
-            setTimeout(() => {
-                window.open('https://wa.me/18437034758?text=' + encodeURIComponent(whatsappMsg), '_blank');
-            }, 500);
-        }, 3000);
     });
 }
 
 // ============================================
-// FORMULARIO DE TESTIMONIOS
+// FORMULARIO DE TESTIMONIOS - GUARDA EN PÁGINA
 // ============================================
+
+// Clave secreta: Ctrl+Shift+D para activar modo admin
+const ADMIN_DELETE_KEY = 'admin123';
+
+// Cargar y mostrar testimonios guardados al iniciar la página
+document.addEventListener('DOMContentLoaded', function() {
+    renderSavedTestimonials();
+});
+
+// Ctrl+Shift+D para borrar testimonios (invisible para visitantes)
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        e.preventDefault();
+        const key = prompt('Clave:');
+        if (key === ADMIN_DELETE_KEY) {
+            saveTestimonials([]);
+            renderSavedTestimonials();
+        }
+    }
+});
+
+function getSavedTestimonials() {
+    try {
+        return JSON.parse(localStorage.getItem('dmv_testimonials') || '[]');
+    } catch {
+        return [];
+    }
+}
+
+function saveTestimonials(testimonials) {
+    localStorage.setItem('dmv_testimonials', JSON.stringify(testimonials));
+}
+
+function renderSavedTestimonials() {
+    const testimonials = getSavedTestimonials();
+
+    const grid = document.querySelector('.testimonials-grid');
+    if (!grid) return;
+
+    // Eliminar testimonios dinámicos anteriores para no duplicar
+    grid.querySelectorAll('.testimonial-dynamic').forEach(el => el.remove());
+
+    testimonials.forEach(t => {
+        const stars = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+        const div = document.createElement('div');
+        div.className = 'testimonial testimonial-dynamic';
+        div.dataset.id = t.id;
+        div.innerHTML =
+            '<div class="testimonial-header">' +
+                '<div class="testimonial-stars" style="color: var(--accent-gold);">' + stars + '</div>' +
+                '<span class="verified-badge">✓ Verificado</span>' +
+            '</div>' +
+            '<p>"' + t.text + '"</p>' +
+            '<div class="testimonial-author">— ' + t.name + '</div>' +
+            '<div class="testimonial-location">' + t.location + '</div>';
+        grid.appendChild(div);
+    });
+}
+
+function deleteTestimonial(id) {
+    let testimonials = getSavedTestimonials();
+    testimonials = testimonials.filter(t => t.id !== id);
+    saveTestimonials(testimonials);
+
+    // Quitar de la página sin recargar
+    const el = document.querySelector(`.testimonial-dynamic[data-id="${id}"]`);
+    if (el) {
+        el.style.transition = 'opacity 0.4s';
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 400);
+    }
+}
 
 const testimonialForm = document.getElementById('testimonialForm');
 const formMessage = document.getElementById('formMessage');
@@ -700,24 +726,29 @@ if (testimonialForm) {
             return;
         }
 
-        const messageText =
-            `*NUEVO TESTIMONIO*\n\n` +
-            `*Nombre:* ${name}\n` +
-            `*Ubicación:* ${location}\n` +
-            `*Calificación:* ${'⭐'.repeat(parseInt(rating.value))}\n` +
-            `*Testimonio:* ${testimonial}\n` +
-            `*Fecha:* ${new Date().toLocaleString('es-ES')}`;
+        // Guardar en localStorage
+        const testimonials = getSavedTestimonials();
+        const newTestimonial = {
+            id: Date.now().toString(),
+            name,
+            location,
+            rating: parseInt(rating.value),
+            text: testimonial,
+            date: new Date().toLocaleString('es-ES')
+        };
+        testimonials.push(newTestimonial);
+        saveTestimonials(testimonials);
 
-        showMessage('¡Gracias por tu testimonio! Lo revisaremos y publicaremos pronto.', 'success');
+        // Mostrar inmediatamente en la página
+        renderSavedTestimonials();
+
+        showMessage('¡Gracias por tu testimonio! Ya está visible en la página.', 'success');
         testimonialForm.reset();
-
-        setTimeout(() => {
-            window.open('https://wa.me/18437034758?text=' + encodeURIComponent(messageText), '_blank');
-        }, 2000);
     });
 }
 
 function showMessage(message, type) {
+    if (!formMessage) return;
     formMessage.textContent = message;
     formMessage.className = 'form-message ' + type;
     formMessage.style.display = 'block';

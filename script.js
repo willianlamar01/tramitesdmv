@@ -953,7 +953,7 @@ if (addressInput) {
 }
 
 function searchAddresses(query) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', California, USA')}&countrycodes=us&addressdetails=1&limit=5`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', USA')}&countrycodes=us&addressdetails=1&limit=5`;
 
     fetch(url, { headers: { 'User-Agent': 'TramitesDMV/1.0' } })
         .then(r => r.json())
